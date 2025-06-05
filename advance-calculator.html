@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style2.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>advance-calculator</title>
+</head>
+<body>
+    <div class="advance-calculator">
+  <input type="text" id="display" disabled>
+  <div class="buttons">
+ <button onclick="clearDisplay()">AC</button>
+ <button onclick="deleteLast()">dec</button>
+  <button onclick="appendOperator('%')">%</button>
+ <button onclick="appendOperator('/')">/</button>
+  </div>
+<div>
+<button onclick="appendnumber(7)">7</button>
+<button onclick="appendnumber(8)">8</button>
+<button onclick="appendnumber(9)">9</button>
+<button onclick="appendOperator('*')">x</button>
+</div>
+  <div>
+<button onclick="appendnumber(4)">4</button>
+<button onclick="appendnumber(5)">5</button>
+<button onclick="appendnumber(6)">6</button>
+<button onclick="appendOperator('-')">-</button>
+</div>
+<div>
+<button onclick="appendnumber(1)">1</button>
+<button onclick="appendnumber(2)">2</button>
+<button onclick="appendnumber(3)">3</button>
+<button onclick="appendOperator('+')">+</button>
+</div>
+<button onclick="appendnumber(0)">0</button>
+<button onclick="appendnumber('.')">.</button>
+<button onclick="calculate()">=</button>
+
+
+<script>
+function appendnumber(num) {
+  if(display.value =="0" && num !==".")
+{
+  display.value=num;
+}else {
+  display.value+=num;
+}
+}
+function appendOperator (op){
+  const lastChar=display.value.slice(-1);
+  if("+_/*%".includes(lastChar))return;
+  display.value +=op;
+}
+function  clearDisplay(){
+  display.value="";
+}
+function deleteLast(){
+  display.value=display.value.slice(0,-1);
+}
+function calculate(){try{display.value=eval(display.value);
+}catch (e) {display.value="Error"}
+
+}
+ 
+</script>
+
+
+
+    
+
+    
+
+
+
+</body>
+</html>
