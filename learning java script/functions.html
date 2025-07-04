@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>functions</title>
+</head>
+<body>
+   <!DOCTYPE html>
+<html>
+<head>
+
+    <h1 id="heading" onclick="changeText()">javascript</h1>
+    <p id="addition"></p>
+
+    <script>
+        document.getElementById ("addition").innerHTML=addnums(10,3)
+        addnums(10,3);
+        function changeText() {
+            var heading = document.getElementById("heading");
+            if (heading.innerHTML === 'javascript') {
+                heading.innerHTML = 'awesome';
+            } else {
+                heading.innerHTML = 'javascript';
+            }
+        }
+        function addnums(num1,num2){
+            return num1 + num2;
+        }
+
+    </script>
+
+  
+</body>
+</html>

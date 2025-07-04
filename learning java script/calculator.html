@@ -1,0 +1,110 @@
+
+  <!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="learning.css">
+<head>
+    <title>Simple Calculator</title>
+</head>
+<body>
+<table border="1">
+        <tr>
+            <td colspan="4">
+             <input type="text" id="inputBox" value="0" />
+            </td>
+            
+        </tr>
+        <tr>
+            <td class="digitbutton" onclick="digitBtnPressed(7)">7</td>
+            <td class="digitbutton" onclick="digitBtnPressed(8)">8</td>
+            <td class="digitbutton" onclick="digitBtnPressed(9)">9</td>
+            <td class="operatorbutton"   onclick="operatorPressed('*')">x</td>
+        </tr>
+        <tr>
+          <Td class="digitbutton" onclick="digitBtnPressed(4)">4</Td>
+          <td class="digitbutton" onclick="digitBtnPressed(5)">5</td>
+        <td class="digitbutton" onclick="digitBtnPressed(6)">6</td>
+        <td class="operatorbutton"   onclick="operatorPressed('-')">-</td>
+        </tr>
+        <tr>
+            <td  class ="digitbutton" onclick="digitBtnPressed(1)">1</td>
+            <td class="digitbutton" onclick="digitBtnPressed(2)">2</td>
+            <td class="digitbutton" onclick="digitBtnPressed(3)">3</td>
+            <td class="operatorbutton"    onclick="operatorPressed('+')">+</td>
+            
+        </tr>
+        <tr>
+            <td colspan="2" onclick="digitBtnPressed('0')">0</td>
+            <td class="ACButton" onclick="clearInput()">AC</td>
+            <td  class="operatorbutton" onclick="operatorPressed('/')">/</td>
+        </tr>
+        <tr>
+            <td  class="operatorbutton"colspan="4" onclick="equalBtnpressed()">=</td>
+        </tr>
+    </table>
+
+    <script>
+        let inputBox = document.getElementById("inputBox");
+        let currentInput = "";
+        let operator = null;
+        let firstOperand = null;
+
+        function digitBtnPressed(digit) {
+            if (currentInput === "0") {
+                currentInput = digit.toString();
+            } else {
+                currentInput += digit.toString();
+            }
+            inputBox.value = currentInput;
+        }
+
+        function operatorPressed(op) {
+            if (currentInput === "") return;
+            if (firstOperand === null) {
+                firstOperand = parseFloat(currentInput);
+            } else {
+                calculate();
+            }
+            operator = op;
+            currentInput = "";
+        }
+
+        function calculate() {
+            if (firstOperand === null || operator === null || currentInput === "") return;
+            let secondOperand = parseFloat(currentInput);
+            switch (operator) {
+                case '+':
+                    firstOperand += secondOperand;
+                    break;
+                case '-':
+                    firstOperand -= secondOperand;
+                    break;
+                case '*':
+                    firstOperand *= secondOperand;
+                    break;
+                case '/':
+                    if (secondOperand !== 0) {
+                        firstOperand /= secondOperand;
+                    } else {
+                        alert("Cannot divide by zero");
+                        return;
+                    }
+                    break;
+            }
+            inputBox.value = firstOperand.toString();
+            currentInput = "";
+            operator = null;
+        }
+
+        function clearInput() {
+            inputBox.value = "0";
+            currentInput = "";
+            firstOperand = null;
+            operator = null;
+        }
+        function equalBtnpressed() {
+            if (currentInput === "") return;
+            calculate();
+        }
+    </script>
+</body>
+</html>
