@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpor" content="width=device-width, initial-scale=1.0">
+    <title>Edit Contact</title>
+    <html>
+      <body onload="getContact()">
+        <div id="avatar-image" >
+ <form id="editButton">
+        <label for="firstname">first name</label>
+        <input type="text" name="firstname" id="firstname" readonly>
+        <br>
+        <label for="lastname">last name</label>
+        <input type="text" name="lastname" id="lastname" readonly>
+        <br>
+        <label for="mobile">mobile</label>
+        <input type="text" name="mobile" id="mobile" readonly>
+        <br>
+        <label for="email">email</label>
+        <input type="text" name="email" id="email" readonly>
+        <br>
+        <label for=" avatar">select a File</label>
+        <input type="file" name="avatar" id="avatar" hidden>
+        <br>
+        <button type="submit" id="submitForm"hidden>submit</button>
+      </form>
+      <br><br>
+        <button id="homeLink" type="button">HOME</button>
+        <button id="editForm" type="button">Edit</button>
+        <button id="deleteContact" type="button">Delete</button>
+      </div>
+      <script src="config.js"></script>
+      <script>
+       var id = getId();
+       document.getElementById("homeLink").addEventListener('click', function() {
+          window.location.href = rootPath + 'index.html';
+        });
+        console.log("the id is: " + id);
+        function submitForm() {
+  alert("Form submitted! Add your update logic here.");
+}
+
+      function getId() {
+        var url=window.location.href;
+        var pos=url.search("=");
+        var id=url.slice(pos+1);
+        return id;
+      }
+  function getContact() {
+    fetch(rootPath + 'controller/get-contact?id=' + id)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        displayContact(data);
+      })
+      .catch(function(error) {
+        console.error('Error:', error);
+      });
+
+    document.getElementById("editForm").addEventListener('click', function () {
+      document.getElementById("firstname").removeAttribute("readonly");
+      document.getElementById("lastname").removeAttribute("readonly");
+      document.getElementById("mobile").removeAttribute("readonly");
+      document.getElementById("email").removeAttribute("readonly");
+      document.getElementById("avatar").removeAttribute("hidden");
+      document.getElementById("submitForm").removeAttribute("hidden");
+    });
+  }
+
+  function displayContact(data) {
+    document.getElementById("firstname").value = data.firstname;
+    document.getElementById("lastname").value = data.lastname;
+    document.getElementById("mobile").value = data.mobile;
+    document.getElementById("email").value = data.email;
+    document.getElementById("avatar-image").innerHTML += `<br><img src="${rootPath}uploads/${data.avatar}" alt="Avatar" width="100" height="100">`;
+  }
+
+function submitForm() {
+        var formData = new FormData(document.getElementById("editButton"));
+        formData.append("id", id);
+        fetch(rootPath + 'controller/update-contact', {
+          method: 'POST',
+          body: formData
+        })
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          alert("Contact updated successfully!");
+          window.location.href = rootPath + 'index.html';
+        })
+        .catch(function(error) {
+          console.error('Error:', error);
+        });
+      }
+        document.getElementById("submitForm").addEventListener('click', function(event) {
+          event.preventDefault(); // Prevent the default form submission
+          submitForm();
+        });
+        function deleteContact() {
+          fetch(rootPath + 'controller/delete-contact?id=' + id, {
+            method: 'DELETE'
+          })
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(data) {
+            alert("Contact deleted successfully!");
+            window.location.href = rootPath + 'index.html';
+          })
+          .catch(function(error) {
+            console.error('Error:', error);
+          });
+        }
+
+      </script>
+
+</body>
+</html>
